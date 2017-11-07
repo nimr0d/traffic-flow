@@ -19,6 +19,7 @@ class traffic:
     #self.generate_cars()
     self.print_road()
 
+
   def iteration(self):
     
 
