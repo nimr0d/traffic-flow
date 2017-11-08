@@ -2,9 +2,9 @@ import numpy as np
 import random
 import collections
 class traffic:
-    def __init__(self, n=100,max_v=5,density=0.03,random_probability=0.1):
+    def __init__(self, n=100,max_v=5,density=0.1,random_probability=0.1):
         self.n=n
-        self.cars=collections.OrderedDict()
+        self.cars={}
         self.max_v=max_v
         self.density=density
         self.random_probability=random_probability
@@ -15,7 +15,7 @@ class traffic:
         for i in range(self.n):
             if(random.random()<self.density):
                 self.cars[i]=random.randint(0,self.max_v)
-        self.current_car_position=self.cars.keys()
+        self.current_car_position=sorted(self.cars.keys())
 
     def iteration(self):
         count_car=len(self.cars)
@@ -27,7 +27,7 @@ class traffic:
             self.randomization(i)
         for i in self.current_car_position[::-1]:
             self.car_motion(i)
-        self.current_car_position=self.cars.keys()
+        self.current_car_position=sorted(self.cars.keys())
         self.printroad()
 
 
