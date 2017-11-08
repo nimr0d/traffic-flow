@@ -26,12 +26,12 @@ class traffic:
             self.slowing_down(i)
         for i in self.current_car_position[::-1]:
             self.randomization(i)
+        self.printroad()
         for i in self.current_car_position[::-1]:
             self.car_motion(i)
         self.cars=self.nextcars
         self.nextcars={}
         self.current_car_position=sorted(self.cars.keys())
-        self.printroad()
 
 
 
