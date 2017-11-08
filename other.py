@@ -21,31 +21,27 @@ class traffic:
         count_car=len(self.cars)
         for i in self.current_car_position[::-1]:
             self.acceleration(i)
-
         for i in self.current_car_position[::-1]:
             self.slowing_down(i)
-
         for i in self.current_car_position[::-1]:
             self.randomization(i)
-
         for i in self.current_car_position[::-1]:
             self.car_motion(i)
-
         self.current_car_position=self.cars.keys()
-
+        self.printroad()
 
 
 
 
     def acceleration(self,car):
-        if(self.cars<self.max_v):
+        if(self.cars[car]<self.max_v):
             self.cars[car]+=1
 
     def slowing_down(self,car):
         index=self.current_car_position.index(car)
         current=self.current_car_position[index%len(self.current_car_position)]
         before=self.current_car_position[(index+1)%len(self.current_car_position)]
-        if((before-current)%self.n>=self.cars[current]):
+        if((before-current)%self.n<=self.cars[current]):
             self.cars[current]=(before-current)%self.n-1
 
     def randomization(self,car):
