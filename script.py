@@ -1,6 +1,5 @@
 import other
 a=other.traffic()
-cars=a.get_car()
-print(cars)
+print(a.get_car())
 a.iteration()
-a.printroad()
+print(len(a.get_car()))
