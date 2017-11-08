@@ -5,6 +5,7 @@ class traffic:
     def __init__(self, n=100,max_v=5,density=0.1,random_probability=0.1):
         self.n=n
         self.cars={}
+        self.nextcars={}
         self.max_v=max_v
         self.density=density
         self.random_probability=random_probability
@@ -27,6 +28,8 @@ class traffic:
             self.randomization(i)
         for i in self.current_car_position[::-1]:
             self.car_motion(i)
+        self.cars=self.nextcars
+        self.nextcars={}
         self.current_car_position=sorted(self.cars.keys())
         self.printroad()
 
@@ -46,13 +49,13 @@ class traffic:
 
     def randomization(self,car):
         if(random.random()<self.random_probability):
-            self.cars[car]-=1
+            if(not self.cars[car]==0):
+                self.cars[car]-=1
 
     def car_motion(self,car):
         velocity=self.cars[car]
-        currentposition=(velocity+car)%self.n
-        self.cars[currentposition]=velocity
-        self.cars.pop(car)
+        nextposition=(velocity+car)%self.n
+        self.nextcars[nextposition]=velocity
 
     def get_car(self):
         return self.cars
