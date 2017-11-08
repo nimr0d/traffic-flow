@@ -1,6 +1,6 @@
 import numpy as np
 import random
-import collections
+
 class traffic:
     def __init__(self, n=100,max_v=5,density=0.1,random_probability=0.1):
         self.n=n
@@ -61,4 +61,7 @@ class traffic:
         board=np.zeros(self.n)
         for i in self.cars:
             board[i]=self.cars[i]
-        print(board)
+        string=''
+        for i in board:
+            string+=str(int(i))
+        print(string)
