@@ -2,13 +2,13 @@ import numpy as np
 import random
 
 class traffic:
-    def __init__(self, n=100,max_v=5,density=0.5,random_probability=0.1):
+    def __init__(self, n=100,max_v=5,density=0.5,slow_down_random_probability=0.1):
         self.n=n
         self.cars={}
         self.nextcars={}
         self.max_v=max_v
         self.density=density
-        self.random_probability=random_probability
+        self.slow_down_random_probability=slow_down_random_probability
         self.generate_car()
         self.printroad()
 
@@ -26,13 +26,14 @@ class traffic:
             self.slowing_down(i)
         for i in self.current_car_position[::-1]:
             self.randomization(i)
-        self.printroad()
+        copyofroad=self.getroad()
         for i in self.current_car_position[::-1]:
             self.car_motion(i)
         self.cars=self.nextcars
         self.nextcars={}
         self.current_car_position=sorted(self.cars.keys())
 
+        return copyofroad
 
 
 
@@ -48,7 +49,7 @@ class traffic:
             self.cars[current]=(before-current)%self.n-1
 
     def randomization(self,car):
-        if(random.random()<self.random_probability):
+        if(random.random()<self.slow_down_random_probability):
             if(not self.cars[car]==0):
                 self.cars[car]-=1
 
@@ -68,3 +69,12 @@ class traffic:
         for i in board:
             string+=str(i)
         print(string)
+
+    def getroad(self):
+        board=['~' for i in range(self.n)]
+        for i in self.cars:
+            board[i]=int(self.cars[i])
+        string=''
+        for i in board:
+            string+=str(i)
+        return(string)
