@@ -1,3 +1,3 @@
-import other
-a=other.traffic()
+import onelane
+a=onelane.traffic()
 a.iteration()

@@ -1,10 +1,10 @@
 import pygame
 from time import sleep
-import other
+import onelane
 
 pygame.init()
 
-traffic_simu=other.traffic(n=100,max_v=5,density=0.2,slow_down_random_probability=0.1)
+traffic_simu=onelane.traffic(n=100,max_v=5,density=0.2,slow_down_random_probability=0.1)
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)

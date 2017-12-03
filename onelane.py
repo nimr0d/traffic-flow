@@ -14,9 +14,16 @@ class traffic:
 
     def generate_car(self):
         for i in range(self.n):
-            if(random.random()<self.density):
+            if(i%(self.n/(self.n*self.density))==0):
+                print(i)
                 self.cars[i]=random.randint(0,self.max_v)
         self.current_car_position=sorted(self.cars.keys())
+
+    # def generate_car(self):
+    #     for i in range(self.n):
+    #         if(random.random()<self.density):
+    #             self.cars[i]=random.randint(0,self.max_v)
+    #     self.current_car_position=sorted(self.cars.keys())
 
     def iteration(self):
         count_car=len(self.cars)
