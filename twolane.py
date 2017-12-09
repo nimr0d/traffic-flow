@@ -15,11 +15,29 @@ class traffic:
         self.generate_car()
         self.printroad()
 
+
     def generate_car(self):
-        for i in range(self.n):
-            if(i%(self.n/(self.n*self.density))==0):
-                self.cars[1][i]=random.randint(0,self.max_v)
+        allcar=range(self.n*2)
+        random.shuffle(allcar)
+        for i in allcar[:int(self.n*2*self.density)]:
+            self.cars[i/100][i%100]=random.randint(0,self.max_v)
         self.current_car_position=[sorted([j for j in self.cars[i]])for i in range(2)]
+
+
+
+    # def generate_car(self):
+    #     for i in range(self.n):
+    #         if(i%(self.n/(self.n*self.density))==0):
+    #             self.cars[1][i]=random.randint(0,self.max_v)
+    #     self.current_car_position=[sorted([j for j in self.cars[i]])for i in range(2)]
+
+    # def generate_car(self):
+    #     for i in range(self.n):
+    #         if(random.random()<self.density):
+    #             self.cars[0][i]=random.randint(0,self.max_v)
+    #         if(random.random()<self.density):
+    #             self.cars[1][i]=random.randint(0,self.max_v)
+    #     self.current_car_position=sorted(self.cars.keys())
 
 
     def encodecar(self,lane,carposition):
@@ -32,14 +50,17 @@ class traffic:
         info=text.split(',')
         return(int(info[1]),int(info[0]))
 
+    def count_car(self):
+        return(sum([len(cars) for cars in self.cars]))
 
-    # def generate_car(self):
-    #     for i in range(self.n):
-    #         if(random.random()<self.density):
-    #             self.cars[0][i]=random.randint(0,self.max_v)
-    #         if(random.random()<self.density):
-    #             self.cars[1][i]=random.randint(0,self.max_v)
-    #     self.current_car_position=sorted(self.cars.keys())
+    def flow(self):
+        num_site_pass=sum([self.cars[lane][cars] for lane in range(len(self.cars)) for cars in self.cars[lane]])
+        if num_site_pass==0:
+            return 0
+        else:
+            return num_site_pass/float(self.n)
+
+
 
     def iteration(self):
         self.current_car_position=[sorted([j for j in self.cars[i]])for i in range(2)]
@@ -99,7 +120,7 @@ class traffic:
         index=self.current_car_position[lane].index(carposition)
         current=self.current_car_position[lane][index%len(self.current_car_position[lane])]
         before=self.current_car_position[lane][(index+1)%len(self.current_car_position[lane])]
-        if((before-current)%self.n<=self.cars[lane][current]):
+        if((before-current)%self.n<=self.cars[lane][current] and before!=current):
             self.cars[lane][current]=(before-current)%self.n-1
 
     def randomization(self,car):

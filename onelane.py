@@ -12,12 +12,19 @@ class traffic:
         self.generate_car()
         self.printroad()
 
+
     def generate_car(self):
-        for i in range(self.n):
-            if(i%(self.n/(self.n*self.density))==0):
-                print(i)
-                self.cars[i]=random.randint(0,self.max_v)
+        allcar=range(self.n)
+        random.shuffle(allcar)
+        for i in allcar[:int(self.n*self.density)]:
+            self.cars[i]=random.randint(0,self.max_v)
         self.current_car_position=sorted(self.cars.keys())
+
+    # def generate_car(self):
+    #     for i in range(self.n):
+    #         if(i%(self.n/(self.n*self.density))==0):
+    #             self.cars[i]=random.randint(0,self.max_v)
+    #     self.current_car_position=sorted(self.cars.keys())
 
     # def generate_car(self):
     #     for i in range(self.n):
@@ -26,7 +33,6 @@ class traffic:
     #     self.current_car_position=sorted(self.cars.keys())
 
     def iteration(self):
-        count_car=len(self.cars)
         for i in self.current_car_position[::-1]:
             self.acceleration(i)
         for i in self.current_car_position[::-1]:
@@ -43,6 +49,16 @@ class traffic:
         return copyofroad
 
 
+    def count_car(self):
+        return(len(self.cars))
+
+    def flow(self):
+        num_site_pass=sum([self.cars[i] for i in self.cars])
+        if num_site_pass==0:
+            return 0
+        else:
+            return num_site_pass/float(self.n)
+
 
     def acceleration(self,car):
         if(self.cars[car]<self.max_v):
@@ -52,7 +68,7 @@ class traffic:
         index=self.current_car_position.index(car)
         current=self.current_car_position[index%len(self.current_car_position)]
         before=self.current_car_position[(index+1)%len(self.current_car_position)]
-        if((before-current)%self.n<=self.cars[current]):
+        if((before-current)%self.n<=self.cars[current] and before!=current):
             self.cars[current]=(before-current)%self.n-1
 
     def randomization(self,car):

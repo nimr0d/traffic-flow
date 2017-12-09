@@ -21,7 +21,6 @@ pygame.display.flip()
 basicfont = pygame.font.SysFont(None, 20)
 
 running = True
-count=0
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -29,19 +28,14 @@ while running:
 
 
     store_string=traffic_simu.iteration().split()
-    lane0=store_string[0]
-    lane1=store_string[1]
-    for i in range(len(lane0)):
-        if lane0[i]=='~':
-            pygame.draw.rect(screen, WHITE, [i*10,0,10,10])
-        else:
-            pygame.draw.rect(screen, (255/5*(5 - int(lane0[i])),255/5*(int(lane0[i])),0), [i*10,0,10,10])
+    for j in range(len(store_string)):
+        lane=store_string[j]
+        for i in range(len(lane)):
+            if lane[i]=='~':
+                pygame.draw.rect(screen, WHITE, [i*10,10*j,10,10])
+            else:
+                pygame.draw.rect(screen, (255/5*(5 - int(lane[i])),255/5*(int(lane[i])),0), [i*10,10*j,10,10])
 
-    for i in range(len(lane1)):
-        if lane1[i]=='~':
-            pygame.draw.rect(screen, WHITE, [i*10,10,10,10])
-        else:
-            pygame.draw.rect(screen, (255/5*(5 - int(lane1[i])),255/5*(int(lane1[i])),0), [i*10,10,10,10])
 
 
     pygame.display.update()
