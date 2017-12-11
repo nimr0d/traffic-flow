@@ -1,15 +1,16 @@
 import pygame
 from time import sleep
 import twolane
-import numpy as np
 
 pygame.init()
+
+traffic_simu=twolane.traffic(n=100,max_v=5,density=0.4,slow_down_random_probability=0.1,generate_car=1)
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 
 background_colour = (255,255,255)
-(width, height) = (1000, 260)
+(width, height) = (1000, 20)
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('traffic flow')
 screen.fill(background_colour)
@@ -19,11 +20,6 @@ pygame.display.flip()
 
 basicfont = pygame.font.SysFont(None, 20)
 
-densitys=np.array(range(1,10),dtype=float)/10
-traffic_simu=[]
-for density in densitys:
-    traffic_simu.append(twolane.traffic(n=100,max_v=5,density=density,slow_down_random_probability=0.1))
-
 running = True
 while running:
     for event in pygame.event.get():
@@ -31,17 +27,14 @@ while running:
             running = False
 
 
-    store_list_string=[]
-    for i in range(9):
-        [store_list_string.append(string) for string in traffic_simu[i].iteration().split()]
-        store_list_string.append(['~' for j in range(100)])
-    for j in range(len(store_list_string)):
-        store_string=store_list_string[j]
-        for i in range(len(store_string)):
-            if store_string[i]=='~':
-                pygame.draw.rect(screen, WHITE, [i*10,j*10,10,10])
+    store_string=traffic_simu.iteration().split()
+    for j in range(len(store_string)):
+        lane=store_string[j]
+        for i in range(len(lane)):
+            if lane[i]=='~':
+                pygame.draw.rect(screen, WHITE, [i*10,10*j,10,10])
             else:
-                pygame.draw.rect(screen, (255/5*(5 - int(store_string[i])),255/5*(int(store_string[i])),0), [i*10,j*10,10,10])
+                pygame.draw.rect(screen, (255/5*(5 - int(lane[i])),255/5*(int(lane[i])),0), [i*10,10*j,10,10])
 
 
 

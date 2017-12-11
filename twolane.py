@@ -3,7 +3,7 @@ import random
 import bisect
 
 class traffic:
-    def __init__(self, n=100,max_v=5,density=0.2,slow_down_random_probability=0.1):
+    def __init__(self, n=100,max_v=5,density=0.2,slow_down_random_probability=0.1,generate_car=1):
         self.n=n
         self.cars=[]
         self.cars.append({})
@@ -12,11 +12,12 @@ class traffic:
         self.max_v=max_v
         self.density=density
         self.slow_down_random_probability=slow_down_random_probability
-        self.generate_car()
+        all_generate_car={1:self.generate_car1,2:self.generate_car2}
+        all_generate_car[generate_car]()
         self.printroad()
 
 
-    def generate_car(self):
+    def generate_car2(self):
         allcar=range(self.n*2)
         random.shuffle(allcar)
         for i in allcar[:int(self.n*2*self.density)]:
@@ -25,11 +26,11 @@ class traffic:
 
 
 
-    # def generate_car(self):
-    #     for i in range(self.n):
-    #         if(i%(self.n/(self.n*self.density))==0):
-    #             self.cars[1][i]=random.randint(0,self.max_v)
-    #     self.current_car_position=[sorted([j for j in self.cars[i]])for i in range(2)]
+    def generate_car1(self):
+        for i in range(self.n):
+            if(i%(self.n/(self.n*self.density))==0):
+                self.cars[1][i]=random.randint(0,self.max_v)
+        self.current_car_position=[sorted([j for j in self.cars[i]])for i in range(2)]
 
     # def generate_car(self):
     #     for i in range(self.n):
