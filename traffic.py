@@ -17,12 +17,7 @@ class Traffic:
     self.max_v = max_v
     self.density = density
     self.prob = prob
-
-    # for i in range(400):
-    #   self.iterate()
-    #   self.print_road()
-
-
+    
   def iterate(self):
     car = self.head
     while car != None:
